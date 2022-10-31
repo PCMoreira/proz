@@ -18,7 +18,7 @@
 # install dependencies
 npm install
 
-# starting rabbit and data base with docker
+# starting rabbit and database with docker
 docker-compose up
 
 # running project
