@@ -1,55 +1,6 @@
 const repository = require('../src/models/student');
 const service = require('../src/services/students');
-
-const mockManyStudents = [
-    {
-        id: 1,
-        name: 'João Padaria',
-        marital_status: 'CASADO(A)',
-        adress_email: 'jp@gmail.com',
-        student_itr: '123.456.247-11',
-        student_id: '11699814-4',
-        birthday: '1999-04-26',
-        genre: 'Masculino',
-        createdAt: new Date(),
-        updatedAt: new Date()
-    },
-    {
-        id: 2,
-        name: 'João Maria',
-        marital_status: 'SOLTEIRO(A)',
-        adress_email: 'joazinho@gmail.com',
-        student_itr: '123.456.247-11',
-        student_id: '11699814-4',
-        birthday: '1999-04-26',
-        genre: 'Masculino',
-        createdAt: new Date(),
-        updatedAt: new Date()
-    }
-];
-
-const mockStudent = {
-    id: 1,
-    name: 'João Padaria',
-    marital_status: 'CASADO(A)',
-    adress_email: 'jp@gmail.com',
-    student_itr: '123.456.247-11',
-    student_id: '11699814-4',
-    birthday: '1999-04-26',
-    genre: 'Masculino',
-    createdAt: new Date(),
-    updatedAt: new Date()
-};
-
-const mockInputSave = {
-    nomeDoAluno: 'Fulano das Coves',
-    estadoCivil: 'SOLTEIRO(A)',
-    email: 'fulano@gmail.com',
-    cpf: '12342432324',
-    rg: '3333333',
-    dataDeNascimento: '27/5/1946',
-    sexo: 'Masculino'
-};
+const mocks = require('./__mocks__/studentMock')
 
 describe('Testing Student Service', () => {
 
@@ -59,31 +10,31 @@ describe('Testing Student Service', () => {
 
     it('When save is called', async () => {
         jest.spyOn(repository, 'create')
-            .mockResolvedValueOnce(mockStudent);
-        const result = await service.save(mockInputSave);
+            .mockResolvedValueOnce(mocks.mockStudent);
+        const result = await service.save(mocks.mockInputSave);
         expect(repository.create).toHaveBeenCalledTimes(1);
-        expect(result).toEqual(mockStudent);
+        expect(result).toEqual(mocks.mockStudent);
     });
 
     it('When findAll is called', async () => {
         jest.spyOn(repository, 'findAll')
-            .mockResolvedValueOnce([mockStudent]);
+            .mockResolvedValueOnce([mocks.mockStudent]);
         const result = await service.findAll();
         expect(repository.findAll).toHaveBeenCalledTimes(1);
-        expect(result).toEqual([mockStudent]);
+        expect(result).toEqual([mocks.mockStudent]);
     });
 
     it('When findById is called', async () => {
         jest.spyOn(repository, 'findByPk')
             .mockImplementation((id) => {
-                return mockManyStudents
+                return mocks.mockManyStudents
                     .filter(
                         item => item.id === id
                     )[0];
             })
         const result = await service.findById(1);
         expect(repository.findByPk).toHaveBeenCalledTimes(1);
-        expect(result).toEqual(mockStudent);
+        expect(result).toEqual(mocks.mockStudent);
     });
 
     it('When update is called', async () => {
@@ -92,7 +43,7 @@ describe('Testing Student Service', () => {
             .mockResolvedValueOnce();
         jest.spyOn(repository, 'findByPk')
             .mockImplementation((id) => {
-                let result = mockManyStudents
+                let result = mocks.mockManyStudents
                     .filter(
                         item => item.id === id
                     )[0];
@@ -110,14 +61,14 @@ describe('Testing Student Service', () => {
     it('When delete is called', async () => {
         jest.spyOn(repository, 'destroy')
             .mockImplementation((id) => {
-                return mockManyStudents
+                return mocks.mockManyStudents
                     .filter(
                         item => item.id !== id
                     )[0];
             })
         const result = await service.deleteStudent(1);
         expect(repository.destroy).toHaveBeenCalledTimes(1);
-        expect(result).toEqual(mockManyStudents[0]);
+        expect(result).toEqual(mocks.mockManyStudents[0]);
     });
 
 })
